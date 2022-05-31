@@ -7,6 +7,14 @@ from handles import handle_message
 
 app = FastAPI()
 
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
+
 
 # main page
 @app.get("/", status_code=status.HTTP_200_OK)
@@ -19,11 +27,3 @@ def get_message(message: MessageRequest,
     db: Session = Depends(get_db)):
     return handle_message(db, message)
 
-
-app.add_middleware(
-    CORSMiddleware,
-    allow_origins=["*"],
-    allow_credentials=True,
-    allow_methods=["*"],
-    allow_headers=["*"],
-)
